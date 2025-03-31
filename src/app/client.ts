@@ -2,9 +2,15 @@
 import { createThirdwebClient } from "thirdweb";
 import { base } from "thirdweb/chains";
 
-// Create the client with the client ID directly
+// Client ID for PiratePay - use environment variable in production, fallback for development
+const clientId = process.env.NEXT_PUBLIC_TW_CLIENT_ID;
+
+if (!clientId) {
+  throw new Error("NEXT_PUBLIC_TW_CLIENT_ID environment variable is required");
+}
+
 export const client = createThirdwebClient({
-  clientId: "a14090c90fef7f70ca2343af69931248",
+  clientId: clientId,
 });
 
 // Default chain configuration
