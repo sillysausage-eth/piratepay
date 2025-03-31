@@ -4,6 +4,7 @@
 import { useActiveAccount } from "thirdweb/react";
 import { PayEmbed } from "thirdweb/react";
 import { client, defaultChain } from "../client";
+import Balance from "./Balance";
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -23,13 +24,22 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="relative w-96 h-full bg-black text-white p-6 overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">Wallet</h2>
+          <h2 className="text-xl font-bold">Your Balance</h2>
           <button onClick={onClose} className="text-white/50 hover:text-white">
             ✕
           </button>
         </div>
 
         <div className="space-y-6">
+          {/* Balance Display */}
+          <div className="bg-white/5 p-6 rounded-lg text-center">
+            <div className="text-sm text-white/50 mb-2">Available Balance</div>
+            <div className="text-3xl font-bold">
+              <Balance />
+            </div>
+          </div>
+
+          {/* Wallet Address */}
           <div className="bg-white/5 p-4 rounded-lg">
             <div className="text-sm text-white/50 mb-1">Wallet Address</div>
             <div className="flex items-center gap-2">
@@ -43,18 +53,19 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
             </div>
           </div>
 
+          {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-4">
             <button
-              className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
+              className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg"
               onClick={() => {
-                // Open deposit modal
+                // Add funds action will be handled by PayEmbed below
               }}
             >
               <span>+</span>
-              Deposit
+              Add Funds
             </button>
             <button
-              className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
+              className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg"
               onClick={() => {
                 // Handle withdraw
               }}
@@ -64,7 +75,7 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
             </button>
           </div>
 
-          {/* Deposit UI */}
+          {/* PayEmbed for adding funds */}
           <div className="mt-4">
             <PayEmbed
               client={client}
