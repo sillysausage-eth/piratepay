@@ -4,8 +4,8 @@ import { base } from "thirdweb/chains";
 
 // Create the client with the public client ID
 export const client = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_TW_CLIENT_ID || "",
-  secretKey: process.env.NEXT_PUBLIC_TW_CLIENT_ID || "", // Using client ID as secret key since it's public
+  clientId: process.env.NEXT_PUBLIC_TW_CLIENT_ID,
+  secretKey: process.env.NEXT_PUBLIC_TW_CLIENT_ID || "", // Required by TypeScript but not used in production
 });
 
 // Default chain configuration
