@@ -1,34 +1,36 @@
 // @ts-check
 "use client";
 
-import { useActiveAccount, useReadContract } from "thirdweb/react";
-import { getContract } from "thirdweb/contract";
-import { client, USDC_CONTRACT, defaultChain } from "../client";
-import { balanceOf } from "thirdweb/extensions/erc20";
+import { useReadContract, useActiveAccount } from "thirdweb/react";
+import { getContract } from "thirdweb";
+import { base } from "thirdweb/chains";
+import { client } from "../client";
+
+// USDC contract on Base
+const contract = getContract({
+  address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  chain: base,
+  client,
+});
 
 export default function Balance() {
   const account = useActiveAccount();
-  
-  const contract = getContract({
-    client,
-    address: USDC_CONTRACT,
-    chain: defaultChain,
-  });
 
-  const { data: balance, isLoading } = useReadContract(balanceOf, {
+  const { data: balance, isLoading } = useReadContract({
     contract,
-    owner: account?.address || "0x0",
+    method: "function balanceOf(address owner) view returns (uint256)",
+    params: [account?.address || "0x0"],
   });
 
   if (!account?.address) return null;
-  if (isLoading) return <div className="text-white/50">Loading...</div>;
 
-  // USDC has 6 decimals
-  const usdBalance = balance ? Number(balance) / 1_000_000 : 0;
-  
   return (
     <div className="text-white">
-      ${usdBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        `USDC: ${balance ? (Number(balance) / 1e6).toFixed(2) : "0.00"}`
+      )}
     </div>
   );
 } 
