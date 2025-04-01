@@ -6,9 +6,17 @@ import { ThirdwebProvider } from "thirdweb/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "thirdweb SDK + Next starter",
-  description:
-    "Starter template for using thirdweb SDK with Next.js App router",
+  title: "PiratePay - Web3 Payment Solution",
+  description: "PiratePay is a decentralized payment solution enabling seamless crypto transactions on Base. Send and receive payments with ease using our Web3 platform.",
+  keywords: ["Web3", "Cryptocurrency", "Payments", "Base", "Blockchain", "DeFi", "PiratePay"],
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
 };
 
 export default function RootLayout({
