@@ -1,9 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThirdwebProvider } from "thirdweb/react";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "PiratePay - Web3 Payment Solution",
@@ -11,12 +16,10 @@ export const metadata: Metadata = {
   keywords: ["Web3", "Cryptocurrency", "Payments", "Base", "Blockchain", "DeFi", "PiratePay"],
   icons: {
     icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -26,6 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+      </head>
       <body className={inter.className}>
         <ThirdwebProvider>{children}</ThirdwebProvider>
       </body>
