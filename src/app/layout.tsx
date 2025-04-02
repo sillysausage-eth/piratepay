@@ -11,9 +11,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "PiratePay - Web3 Payment Solution",
-  description: "PiratePay is a decentralized payment solution enabling seamless crypto transactions on Base. Send and receive payments with ease using our Web3 platform.",
-  keywords: ["Web3", "Cryptocurrency", "Payments", "Base", "Blockchain", "DeFi", "PiratePay"],
+  title: "PiratePay - AI Agent Payments",
+  description: "PiratePay is a decentralized payment solution enabling AI agents to pay for goods and services.",
+  keywords: ["AI", "Agents", "A-commerce", "Web3", "Cryptocurrency", "Payments", "Base", "Blockchain", "DeFi", "PiratePay"],
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
