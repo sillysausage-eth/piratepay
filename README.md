@@ -1,59 +1,33 @@
+# PiratePay
 
-![tw-banner](https://github.com/thirdweb-example/next-starter/assets/57885104/20c8ce3b-4e55-4f10-ae03-2fe4743a5ee8)
+A decentralized payment solution enabling AI agents to pay for goods and services on Base.
 
-# thirdweb-next-starter
+## Features
+- Seamless crypto transactions on Base
+- Web3 wallet integration
+- AI agent payment support
+- Modern, responsive UI
 
-Starter template to build an onchain react native app with [thirdweb](https://thirdweb.com/) and [next](https://nextjs.org/).
-
-## Installation
-
-Install the template using [thirdweb create](https://portal.thirdweb.com/cli/create)
+## Getting Started
 
 ```bash
-  npx thirdweb create app --next
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
 ## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file:
-
-`CLIENT_ID`
-
-To learn how to create a client ID, refer to the [client documentation](https://portal.thirdweb.com/typescript/v5/client). 
-
-## Run locally
-
-Install dependencies
-
-```bash
-yarn
+Create a `.env.local` file with:
+```
+NEXT_PUBLIC_TW_CLIENT_ID=your_thirdweb_client_id
 ```
 
-Start development server
-
-```bash
-yarn dev
-```
-
-Create a production build
-
-```bash
-yarn build
-```
-
-Preview the production build
-
-```bash
-yarn start
-```
-
-## Resources
-
-- [Documentation](https://portal.thirdweb.com/typescript/v5)
-- [Templates](https://thirdweb.com/templates)
-- [YouTube](https://www.youtube.com/c/thirdweb)
-- [Blog](https://blog.thirdweb.com)
-
-## Need help?
-
-For help or feedback, please [visit our support site](https://thirdweb.com/support)
+## Built With
+- Next.js 14
+- thirdweb SDK v5
+- Tailwind CSS
