@@ -13,7 +13,11 @@ const contract = getContract({
   client,
 });
 
-export default function Balance() {
+interface BalanceProps {
+  showLarge?: boolean;
+}
+
+export default function Balance({ showLarge = false }: BalanceProps) {
   const account = useActiveAccount();
 
   const { data: balance, isLoading } = useReadContract({
@@ -22,14 +26,30 @@ export default function Balance() {
     params: [account?.address || "0x0"],
   });
 
-  if (!account?.address) return null;
+  const formattedBalance = () => {
+    if (isLoading) return "—";
+    if (!balance) return "$0.00";
+    const amount = Number(balance) / 1e6; // Convert from USDC decimals
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount);
+  };
 
   return (
-    <div className="text-white">
+    <div className="font-mono">
       {isLoading ? (
-        "Loading..."
+        <div className={`animate-pulse bg-white/10 rounded ${
+          showLarge ? 'h-16 w-64' : 'h-12 w-48'
+        }`} />
       ) : (
-        `USDC: ${balance ? (Number(balance) / 1e6).toFixed(2) : "0.00"}`
+        <div className={`tracking-tight ${
+          showLarge ? 'text-6xl font-light' : 'text-5xl font-light'
+        }`}>
+          {formattedBalance()}
+        </div>
       )}
     </div>
   );

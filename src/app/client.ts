@@ -2,10 +2,13 @@
 import { createThirdwebClient } from "thirdweb";
 import { base } from "thirdweb/chains";
 
+if (!process.env.NEXT_PUBLIC_TW_CLIENT_ID) {
+  throw new Error("Missing NEXT_PUBLIC_TW_CLIENT_ID environment variable");
+}
+
 // Create the client with the public client ID
 export const client = createThirdwebClient({
   clientId: process.env.NEXT_PUBLIC_TW_CLIENT_ID,
-  secretKey: process.env.NEXT_PUBLIC_TW_CLIENT_ID || "", // Required by TypeScript but not used in production
 });
 
 // Default chain configuration
