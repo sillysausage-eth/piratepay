@@ -1,15 +1,16 @@
 "use client";
 
-import { useActiveAccount } from "thirdweb/react";
+import { useActiveAccount, ConnectButton } from "thirdweb/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Balance from "../components/Balance";
 import { formatUnits } from "viem";
 import { base } from "thirdweb/chains";
 import { client } from "../client";
-import { ConnectButton, useSendTransaction } from "thirdweb/react";
+import { useSendTransaction } from "thirdweb/react";
 import { prepareTransaction } from "thirdweb";
 import { PayEmbed } from "thirdweb/react";
+import { getUserEmail } from "thirdweb/wallets";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -17,14 +18,31 @@ export default function DashboardPage() {
   const { mutate: send } = useSendTransaction();
   const [showPayEmbed, setShowPayEmbed] = useState(false);
   const [showSendModal, setShowSendModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [sendAmount, setSendAmount] = useState("");
   const [sendAddress, setSendAddress] = useState("");
+  const [copySuccess, setCopySuccess] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!account?.address) {
+    if (!account) {
       router.push("/login");
     }
   }, [account, router]);
+
+  useEffect(() => {
+    const fetchEmail = async () => {
+      if (!account) return;
+      try {
+        const email = await getUserEmail({ client });
+        setEmail(email || null);
+      } catch (error) {
+        console.error("Error fetching email:", error);
+        setEmail(null);
+      }
+    };
+    fetchEmail();
+  }, [account]);
 
   const handleAddMoney = () => {
     setShowPayEmbed(true);
@@ -49,6 +67,18 @@ export default function DashboardPage() {
       console.error("Failed to send transaction:", error);
     }
   };
+
+  const handleCopyAddress = async () => {
+    if (account?.address) {
+      await navigator.clipboard.writeText(account.address);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    }
+  };
+
+  const truncatedAddress = account?.address 
+    ? `${account.address.slice(0, 6)}...${account.address.slice(-4)}`
+    : "";
 
   const balance = "125.00";
   // Convert the decimal string to a BigInt by removing the decimal point and converting to integer
@@ -96,6 +126,7 @@ export default function DashboardPage() {
 
           <button 
             className="group flex flex-col items-center focus:outline-none"
+            onClick={() => setShowDetailsModal(true)}
             aria-label="View details"
           >
             <div className="w-16 h-16 bg-[#E233FF] rounded-full flex items-center justify-center mb-2 transition-transform group-hover:scale-105 group-focus:scale-105">
@@ -195,6 +226,50 @@ export default function DashboardPage() {
               >
                 Send
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Details Modal */}
+      {showDetailsModal && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => setShowDetailsModal(false)}
+        >
+          <div 
+            className="bg-[#1A1A1A] rounded-lg p-6 w-[90%] max-w-[400px]"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 className="text-xl text-white mb-6">Account Details</h3>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-white/70 mb-1">Wallet Address</h3>
+                <div className="flex items-center gap-2">
+                  <p className="text-white">{truncatedAddress}</p>
+                  <button
+                    onClick={handleCopyAddress}
+                    className="text-white/70 hover:text-white transition-colors"
+                    aria-label="Copy wallet address"
+                  >
+                    {copySuccess ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 4V16C8 17.1046 8.89543 18 10 18H18C19.1046 18 20 17.1046 20 16V7.41421C20 6.88378 19.7893 6.37507 19.4142 6L16 2.58579C15.6249 2.21071 15.1162 2 14.5858 2H10C8.89543 2 8 2.89543 8 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M16 4V4C16 5.10457 16.8954 6 18 6H20V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M4 8V20C4 21.1046 4.89543 22 6 22H14C15.1046 22 16 21.1046 16 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-white/70 mb-1">Email</h3>
+                <p className="text-white">{email || "Not connected"}</p>
+              </div>
             </div>
           </div>
         </div>
