@@ -177,11 +177,22 @@ export default function DashboardPage() {
               client={client}
               payOptions={{
                 mode: "fund_wallet",
-                buyWithCrypto: {
-                  prefillSource: {
-                    chain: base,
-                  },
+                metadata: {
+                  name: "Add Funds",
                 },
+                prefillBuy: {
+                  chain: base,
+                  token: {
+                    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                    name: "USD Coin",
+                    symbol: "USDC"
+                  },
+                  allowEdits: {
+                    chain: false,
+                    token: false,
+                    amount: true
+                  }
+                }
               }}
             />
           </div>
