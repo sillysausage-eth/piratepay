@@ -5,6 +5,15 @@ const nextConfig = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        pathname: '/sillysausage-eth/piratepay-logo/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
