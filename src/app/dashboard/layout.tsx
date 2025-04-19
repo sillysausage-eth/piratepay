@@ -3,6 +3,7 @@
 // Updated: 2024-03-19 - Added Shop navigation and moved to dashboard group
 // Updated: 2024-03-20 - Fixed navigation paths to use dashboard group
 // Updated: 2024-03-20 - Fixed navigation paths to be relative to dashboard group
+// Updated: 2024-03-21 - Fixed ProfileButton import path
 
 "use client";
 
