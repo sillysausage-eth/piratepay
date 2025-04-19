@@ -4,6 +4,7 @@
 // Updated: 2024-03-20 - Fixed navigation paths to use dashboard group
 // Updated: 2024-03-20 - Fixed navigation paths to be relative to dashboard group
 // Updated: 2024-03-21 - Fixed ProfileButton import path
+// Updated: 2024-03-21 - Updated ProfileButton import to use root components directory
 
 "use client";
 
@@ -11,7 +12,7 @@ import { client } from "../client";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import ProfileButton from "../components/ProfileButton";
+import ProfileButton from "../../components/ProfileButton";
 import { useDisconnect, useActiveAccount, useActiveWallet } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
 
